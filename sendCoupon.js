@@ -26,7 +26,10 @@ async.series([function (callback) {
                 var INSERT = "insert into ph_voucher_info select null,?,id,type,`name`,merchant_id,used_min_amount,amount,NOW(),DATE_ADD(NOW(),INTERVAL 14 DAY),'0',NOW(),NULL,merchant_name from ph_voucher_project where id = ?";
                 connectionOld.query(INSERT, [item["id"], 151], function (error) {
                     if (error) {
+                        a++;
                         console.log(error);
+                    } else {
+                        b++;
                     }
                     next(error);
                 });

@@ -22,7 +22,8 @@ async.series([function (callback) {
             async.eachLimit(results, 1000, function (item, next) {
                 // console.log(item);
                 // via DB
-                var INSERT = "insert into ph_voucher_info select null,?,id,type,`name`,merchant_id,used_min_amount,amount,begin_time,end_time,'0',NOW(),NULL,merchant_name from ph_voucher_project where id = ?";
+                // var INSERT = "insert into ph_voucher_info select null,?,id,type,`name`,merchant_id,used_min_amount,amount,begin_time,end_time,'0',NOW(),NULL,merchant_name from ph_voucher_project where id = ?";
+                var INSERT = "insert into ph_voucher_info select null,?,id,type,`name`,merchant_id,used_min_amount,amount,NOW(),DATE_ADD(NOW(),INTERVAL 14 DAY),'0',NOW(),NULL,merchant_name from ph_voucher_project where id = ?";
                 connectionOld.query(INSERT, [item["id"], 151], function (error) {
                     if (error) {
                         console.log(error);

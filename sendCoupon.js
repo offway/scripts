@@ -21,18 +21,27 @@ async.series([function (callback) {
             var b = 0;
             async.eachLimit(results, 1000, function (item, next) {
                 // console.log(item);
-                var url = "https://zeus.offway.cn/voucher/giveByVpId?userId=AAAA&voucherProjectId=151".replace("AAAA", item["id"]);
-                request.post({url: url, form: {}}, function (error, response, body) {
+                // via DB
+                var INSERT = "insert into ph_voucher_info select null,?,id,type,`name`,merchant_id,used_min_amount,amount,begin_time,end_time,'0',NOW(),NULL,merchant_name from ph_voucher_project where id = ?";
+                connectionOld.query(INSERT, [item["id"], 151], function (error) {
                     if (error) {
-                        a++;
                         console.log(error);
-                        console.log(item);
-                    } else {
-                        b++;
-                        // console.log("OK");
                     }
-                    next();
+                    next(error);
                 });
+                // via API
+                // var url = "https://zeus.offway.cn/voucher/giveByVpId?userId=AAAA&voucherProjectId=151".replace("AAAA", item["id"]);
+                // request.post({url: url, form: {}}, function (error, response, body) {
+                //     if (error) {
+                //         a++;
+                //         console.log(error);
+                //         console.log(item);
+                //     } else {
+                //         b++;
+                //         // console.log("OK");
+                //     }
+                //     next();
+                // });
             }, function (err, res) {
                 console.log("a is " + a);
                 console.log("b is " + b);

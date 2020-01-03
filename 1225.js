@@ -57,7 +57,7 @@ async.series([function (callback) {
                         });
                     },
                     function (cbb) {
-                        connection.query('SELECT * FROM ph_address where user_id =' + uid + ' limit 1', function (error, results, fields) {
+                        connection.query('SELECT * FROM ph_user_info where id =' + uid + ' limit 1', function (error, results, fields) {
                             if (error) {
                                 console.log(error);
                             } else {
